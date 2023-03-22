@@ -5,22 +5,31 @@ const thoughtSchema = new Schema(
         thoughtText: {
             type: String,
             required: true,
-            max_length: 280,
-            min_length: 1
+            maxLength: 280,
+            minLlength: 1
         },
-        createdAt: {
+        
           //Date
 //Set default value to the current timestamp
 //Use a getter method to format the timestamp on query  
-        },
+createdAt: {
+    type: Date,
+    default: Date.now,
+  },
         //username of user who created this thought
         username: {
             type: String,
             required: true,
         },
         //an array of nested documents created with the reactionSchema
-        reactions: 
-    }
+        reactions: [reactionSchema]
+    },
+    {
+        toJSON: {
+          virtuals: true,
+        },
+        id: false,
+      }
 );
 
 //TODO: set up date to be current timestamp by default
@@ -28,3 +37,8 @@ const thoughtSchema = new Schema(
 
 //TODO: set up reaction subdocument schema
 //TODO: set up a virtual called reactionCount that retrieves the length of the thought's reactions array field on query
+thoughtSchema.virtual('reactionCount').get(function () {
+  return this.reactions.length;
+})
+
+module.exports = thoughtSchema;
