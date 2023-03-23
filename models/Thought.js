@@ -1,5 +1,29 @@
 const { Schema, model } = require('mongoose');
 
+
+//reaction will be a subdocument of the Thought model
+const reactionSchema = new Schema (
+  {
+      reactionId: {
+          type: Schema.Types.ObjectId,
+          default: () => new Types.ObjectId(),
+      },
+      reactionBody: {
+          type: String,
+          required: true,
+          maxLength: 280,
+      },
+      username: {
+          type: String,
+          required: true,
+      },
+      createdAt: {
+          type: Date,
+          default: Date.now,
+      },
+   }
+   );
+   
 const thoughtSchema = new Schema(
     {
         thoughtText: {
@@ -41,4 +65,6 @@ thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 })
 
-module.exports = thoughtSchema;
+const Thought = model('Thought', thoughtSchema);
+
+module.exports = Thought;

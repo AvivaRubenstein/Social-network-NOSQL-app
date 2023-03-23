@@ -13,6 +13,7 @@ const userSchema = new Schema (
     type: String,
     unique: true,
     required: true,
+    //validate whether the entry is in a valid email address format
     validate: {
       validator: function(v) {
         return /.+\@.+\..+/.test(v);
@@ -51,6 +52,6 @@ userSchema.virtual('friendCount').get(function(){
 //TODO: thoughts referencing
 //TODO: friends referencing Users
 
-const User = model('user', userSchema);
+const User = model('User', userSchema);
 
 module.exports = User;
