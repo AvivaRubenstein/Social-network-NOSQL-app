@@ -22,7 +22,7 @@ module.exports = {
     },
     getSingleUser : async (req, res) => {
         try{
-        let userData = await User.findOne({_id: req.params.thoughtId});
+        let userData = await User.findOne({_id: req.params.userId});
         if(!userData){
             return res.status(404).json({message: 'No user found with that ID'});
         } else {
@@ -34,8 +34,19 @@ module.exports = {
         }
     },
     updateUser : async (req, res) => {
-
-    },
+        try{ 
+            let updatedUser = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $set: req.body },
+            { runValidators: true, new: true } //new: true returns the updated version of the user
+        ); 
+        if(updatedUser){
+            return res.json(updatedUser);
+        }
+    } catch(err) {
+        return res.status(500).json(err);
+    }
+       },
     removeUser : async (req, res) => {
 
     },
