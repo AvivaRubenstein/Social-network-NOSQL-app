@@ -45,6 +45,10 @@ createdAt: {
             type: String,
             required: true,
         },
+         //TODO: ASK ABOUT THIS Should this be added to the schema????
+    //     userId: {
+    //     type: Schema.Types.ObjectId,
+    // },
         //an array of nested documents created with the reactionSchema
         reactions: [reactionSchema]
     },
@@ -80,6 +84,6 @@ thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 })
 
-const Thought = model('Thought', thoughtSchema);
+const Thought = model('thought', thoughtSchema);
 
 module.exports = Thought;
