@@ -22,7 +22,7 @@ module.exports = {
     },
     getSingleUser : async (req, res) => {
         try{
-        let userData = await User.findOne({_id: req.params.userId});
+        let userData = await User.findOne({_id: req.params.thoughtId});
         if(!userData){
             return res.status(404).json({message: 'No user found with that ID'});
         } else {
