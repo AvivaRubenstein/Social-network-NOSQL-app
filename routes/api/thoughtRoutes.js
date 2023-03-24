@@ -10,7 +10,7 @@ const {
     createReaction,
     deleteReaction
 
-} = require()
+} = require('../../controllers/thoughtController');
 // /api/thoughts
 // GET all thoughts
 // POST to create a new thought (and push the created thought's _id to the user's thoughts array)

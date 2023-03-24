@@ -1,4 +1,4 @@
-const {User, Thought} = require('../models');
+const {User} = require('../models/User');
 const {ObjectId} = require('mongoose').Types;
 
 module.exports = {
@@ -12,7 +12,12 @@ module.exports = {
     }
     },
     createUser : async(req, res) => {
-
+        try {
+            let newUser = await User.create(req.body);
+            res.json(newUser);
+        } catch(err){
+            res.status(500).json(err);
+        }
     },
     getSingleUser : async (req, res) => {
         try{

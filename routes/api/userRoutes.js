@@ -9,7 +9,7 @@ const{
     removeUser,
     addFriend,
     removeFriend
-} = require()
+} = require('../../controllers/userController');
 // /api/users
 // GET all users
 //POST a new user
