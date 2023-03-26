@@ -66,11 +66,37 @@ module.exports = {
           },
         //add a new friend to a user's friend list
     addFriend : async (req, res) => {
-
+        try{
+        let friend = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            {$addToSet : {friends: req.params.friendId } },
+            { runValidators: true, new: true } //new: true returns the updated version of the user
+        );
+        if(!friend){
+            res.status(404).json({message: "User or Friend not found."});
+        } else{
+            res.status(200).json(friend);
+        }
+        } catch(err){
+            res.status(500).json(err);
+        }
     },
     //remove a friend from a user's friend list
     removeFriend : async (req, res) => {
-
+        try{
+            let friend = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                {$pull : {friends: req.params.friendId } },
+                { runValidators: true, new: true }
+            );
+            if(!friend){
+                res.status(404).json({message: "This friendship does not exist"});
+            } else{
+                res.status(200).json({message: "Friendship deleted"});
+            }
+            } catch(err){
+                res.status(500).json(err);
+            }
     }
 
 }
