@@ -34,7 +34,7 @@ module.exports = {
     },
     getSingleThought : async (req,res) => {
         try{
-            let thoughtData = await Thought.findOne({_id: req.params.userId});
+            let thoughtData = await Thought.findOne({_id: req.params.thoughtId});
             if(!thoughtData){
                 return res.status(404).json({message: 'No thought found with that ID'});
             } else {
@@ -82,8 +82,10 @@ module.exports = {
             );
         if(!reaction){
             res.status(404).json({message: "No thought found with this id"})
+        } else {
+            res.status(200).json(reaction);
         }
-        res.status(200).json(reaction);
+        
     } catch (err){
         res.status(500).json(err);
     }
