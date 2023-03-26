@@ -74,10 +74,35 @@ module.exports = {
 },
     //create a reaction to be stored in a Thoughts reaction array
     createReaction: async (req, res) => {
-
+    try{
+        let reaction = await Thought.findOneAndUpdate({_id: req.params.thoughtId},
+            //adding this new reaction to the Thought's reactions array
+            {$addToSet : {reactions: req.body}},
+            {runValidators: true, new: true}
+            );
+        if(!reaction){
+            res.status(404).json({message: "No thought found with this id"})
+        }
+        res.status(200).json(reaction);
+    } catch (err){
+        res.status(500).json(err);
+    }
     },
     //remove/pull a reaction from the Thought's reaction array by the reactionId value
     deleteReaction: async(req, res) => {
-
+    try{
+        let del = await Thought.findOneAndUpdate({_id: req.params.thoughtId},
+            //removes the reaction matching the reactionId in the parameters from the Thought's reactions array
+            {$pull: {reactions : {reactionId : req.params.reactionId}}},
+            {runValidators: true, new: true}
+            );
+            if(!del){
+                res.status(404).json({message: "Something went wrong - could not find a reaction with this id"});
+            } else {
+                res.status(200).json({message: "successfully deleted"});
+            }
+    }catch(err){
+        res.status(500).json(err);
+    }
     }
     }
