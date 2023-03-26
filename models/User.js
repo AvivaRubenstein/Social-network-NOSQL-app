@@ -6,7 +6,7 @@ const userSchema = new Schema (
     type: String,
     unique: true,
     required: true,
-    //gets rid of whitespace
+    //trim gets rid of whitespace
     trim: true,
   },
   email: {
@@ -44,13 +44,10 @@ const userSchema = new Schema (
   }
 );
 
-//TODO: create friendCount virutal that retrieves the length of the user's friends array field on query.
+//friendCount virutal that retrieves the length of the user's friends array field on query.
 userSchema.virtual('friendCount').get(function(){
   return this.friends.length;
 })
-//TODO: email matching
-//TODO: thoughts referencing
-//TODO: friends referencing Users
 
 const User = model('user', userSchema);
 

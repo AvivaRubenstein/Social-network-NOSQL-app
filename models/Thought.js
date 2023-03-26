@@ -59,7 +59,7 @@ createdAt: {
 
 
 //createdAt format : 2023-03-24T15:56:42.020Z will become something like "Fri Mar 24 2023 11:55:46 GMT-0400 (Eastern Daylight Time)"
-//set up getter method to format timestamp on query
+//getter method to format timestamp on query
 thoughtSchema
   .virtual('dateCreated')
   // Getter
@@ -76,7 +76,7 @@ thoughtSchema
   });
 
 
-//TODO: set up a virtual called reactionCount that retrieves the length of the thought's reactions array field on query
+//reactionCount retrieves the length of the thought's reactions array field on query
 thoughtSchema.virtual('reactionCount').get(function () {
   return this.reactions.length;
 })
