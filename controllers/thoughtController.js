@@ -20,12 +20,12 @@ module.exports = {
             res.json(newThought);
  //push new Thought into User's thoughts array
             let addToUser = await User.findOneAndUpdate(
-            //TODO: Ask why the Thought Model accepts a username but not a userId
-            //Are we taking in a userId in the request body that IS NOT part to the schema to create a Thought???
-            {_id: req.body.userId},
+            //find the User to update by the username field in the new Thought's request body
+            {username: req.body.username},
             {$addToSet: {thoughts: newThought._id}},
             {new: true}
             );
+            console.log("New thought successfully added, and updated to user's profile")
             } 
         } catch(err){
             console.log(err);
@@ -46,11 +46,32 @@ module.exports = {
             }
     },
     updateThought: async (req, res) => {
-
+    try{
+        let update = await Thought.findOneAndUpdate(
+            {_id: req.params.thoughtId},
+            {thoughtText: req.body.thoughtText},
+            {runValidators: true, new : true}
+        );
+        if(!update){
+            res.status(404).json({message: "no thought found with this id"})
+        } else {
+            res.status(200).json(update);
+        }
+    }catch(err){
+        res.status(500).json(err);
+    }
     },
     deleteThought: async (req, res) => {
-
-    },
+    try {let del = await Thought.findOneAndDelete({_id: req.params.thoughtId});
+    if(del){
+        res.status(200).json({message: "this thought has been deleted"});
+    } else {
+        res.status(404).json({message: "there was no thought associated with this id"});
+    }
+    } catch(err){
+        res.status(500).json(err);
+    }
+},
     //create a reaction to be stored in a Thoughts reaction array
     createReaction: async (req, res) => {
 

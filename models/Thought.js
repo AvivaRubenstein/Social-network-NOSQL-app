@@ -45,10 +45,7 @@ createdAt: {
             type: String,
             required: true,
         },
-         //TODO: ASK ABOUT THIS Should this be added to the schema????
-    //     userId: {
-    //     type: Schema.Types.ObjectId,
-    // },
+    
         //an array of nested documents created with the reactionSchema
         reactions: [reactionSchema]
     },
